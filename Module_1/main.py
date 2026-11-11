@@ -25,7 +25,7 @@ app=FastAPI(
     version="1.0.0",
 )
 
-ai_client=genai.client(api_key=gemini_api_key)
+ai_client=genai.Client(api_key=gemini_api_key)
 
 #Text Input to generate explanation on the given topic, course, and student level
 @app.post("/generate_text")
@@ -80,7 +80,7 @@ async def analyze_image(file: UploadFile = File(...),question: str=Form(...)):
         3. "related_concepts": list of strings (concepts related to the image and question)
         """
 
-        response = await ai_client.models.generate_content(
+        response =  ai_client.models.generate_content(
             model=model,
             contents=[prompt,image_input],
             config=types.GenerateContentConfig(
@@ -114,7 +114,7 @@ async def evaluate_audio_answer(file: UploadFile = File(...), question: str = Fo
         3. "feedback": string (constructive feedback for improvement)
         """
 
-        response = await ai_client.models.generate_content(
+        response = ai_client.models.generate_content(
             model=model,
             contents=[prompt, audio_input],
             config=types.GenerateContentConfig(
@@ -149,7 +149,7 @@ async def analyze_video(file: UploadFile = File(...), question: str = Form(...))
         """
 
 
-        response = await ai_client.models.generate_content(
+        response = ai_client.models.generate_content(
             model=model,
             contents=[prompt, video_input],
             config=types.GenerateContentConfig(
